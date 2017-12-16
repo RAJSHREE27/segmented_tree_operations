@@ -1,0 +1,64 @@
+#include <bits/stdc++.h>
+using namespace std;
+void build(int node, int l, int r, vector<int> &a,vector<int> &tree);
+/*to build a segmented tree */
+int sum_query(int node,int strt,int end,int l,int r,vector<int> &a,vector<int> &tree);
+/*for getting sum of given range within the array*/
+
+int main()
+{
+    vector<int> a(7),tree(13);
+    int i,sum=0;
+    a[0]=1;
+    a[1]=2;
+    a[2]=3;
+    a[3]=4;
+    a[4]=5;
+    a[5]=6;
+    a[6]=7;
+    build(1,0,6,a,tree);
+    for(i=0;i<7;i++)
+    {   cout<<a[i]<<"\t";
+    }
+    cout<<"\n";
+    for(i=0;i<14;i++)
+    {   cout<<tree[i]<<"\t";
+    }
+    cout<<"\n";
+    sum=sum_query(1,2,5,0,6,a,tree);
+    cout<<sum;
+    return 0;
+}
+void build(int node, int l, int r, vector<int> &a,vector<int> &tree)
+{   if(l==r)
+    {   tree[node]=a[l];
+    }
+    else
+    {   int mid=(l+r)/2;
+        build(2*node,l,mid,a,tree);
+        build(2*node+1, mid+1,r,a,tree);
+        tree[node]=tree[2*node]+tree[2*node+1];
+    }
+}
+int sum_query(int node,int strt,int end,int l,int r,vector<int> &a,vector<int> &tree)
+{   
+    if(strt>r || end<l)
+    {   return 0;
+    }
+    if(strt<=l && end >=r){
+        return tree[node];
+    }
+    int mid=(l+r)/2;
+    
+    int mk= sum_query(2*node, strt, end,l,mid,a,tree);
+    int rj=sum_query(2*node+1,strt,end,mid+1,r,a,tree);
+    return (mk+rj);
+    
+}
+    
+    
+    
+    
+    
+    
+    

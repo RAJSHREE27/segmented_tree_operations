@@ -1,0 +1,70 @@
+/* TO FIND RANGE MINIMUM VALUE */
+#include <bits/stdc++.h>
+using namespace std;
+void build(int node, int l, int r, vector<int> &a,vector<int> &tree);
+/*to build a segmented tree */
+void rebuild(int node, int l,int r,vector<int> &a,vector<int> &tree);
+/*to find range minimum value */
+
+int main()
+{
+    vector<int> a(7),tree(13);
+    int i;
+    a[0]=1;
+    a[1]=2;
+    a[2]=3;
+    a[3]=4;
+    a[4]=5;
+    a[5]=6;
+    a[6]=7;
+    build(1,0,6,a,tree);
+    for(i=0;i<7;i++)
+    {   cout<<a[i]<<"\t";
+    }
+    cout<<"\n";
+    for(i=0;i<14;i++)
+    {   cout<<tree[i]<<"\t";
+    }
+    cout<<"\n";
+    rebuild(1,0,6,a,tree);
+    cout<<"\n the updated tree is:"<<"\n";
+    for(i=0; i<14; i++)
+    {   cout<<tree[i]<<"\t";
+    } 
+    return 0;
+}
+void build(int node, int l, int r, vector<int> &a,vector<int> &tree)
+{   if(l==r)
+    {   tree[node]=a[l];
+    }
+    else
+    {   int mid=(l+r)/2;
+        build(2*node,l,mid,a,tree);
+        build(2*node+1, mid+1,r,a,tree);
+        tree[node]=tree[2*node]+tree[2*node+1];
+    }
+}
+void rebuild(int node, int l,int r,vector<int> &a,vector<int> &tree)
+{   if(l==r)
+    {   tree[node]=a[l];
+    }
+    else
+    {   int mid=(l+r)/2;
+        rebuild(2*node,l,mid,a,tree);
+        rebuild(2*node+1, mid+1,r,a,tree);
+        if(tree[2*node]>tree[2*node+1])
+        {   tree[node]=tree[2*node+1];
+        }
+        else
+        {   tree[node]=tree[2*node];
+        }
+    }
+}
+    
+    
+    
+    
+    
+    
+    
+    
